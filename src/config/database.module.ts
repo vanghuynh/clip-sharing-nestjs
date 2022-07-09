@@ -17,7 +17,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         schema: configService.get('DATABASE_SCHEMA'),
         synchronize: configService.get('DATABASE_SYNCHRONIZE') == 'yes' ? true : false,
         logging: true,
-        entities: [__dirname + "/../../dist/**/*.entity.js"]
+        entities: [__dirname + "/../../dist/**/*.entity.js"],
+        ssl:
+          process.env.NODE_ENV === 'production'
+            ? { rejectUnauthorized: false }
+            : false,
       }),
     }),
   ]
