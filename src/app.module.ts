@@ -3,21 +3,20 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { ClipModule } from './clip/clip.module';
 import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core"
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 import { UserModule } from './user/user.module';
-import { typeOrmConfig } from "./config/typeorm.config";
 import { HttpModule } from '@nestjs/axios';
+import { DatabaseModule } from './config/database.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true
     }),
-    TypeOrmModule.forRoot(typeOrmConfig),
+    DatabaseModule,
     HttpModule,
     ClipModule,
     UserModule,
