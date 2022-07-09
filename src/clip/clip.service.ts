@@ -1,15 +1,19 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClipEntity } from 'src/clip/clip.entity';
 import { UserEntity } from 'src/user/user.entity';
 import { Like, Repository } from 'typeorm';
 import { ClipDto, ClipRo } from './clip.dto';
+import { GoogleService } from './google.service';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class ClipService {
     constructor(
         @InjectRepository(ClipEntity) private clipRepository: Repository<ClipEntity>,
-        @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>) {
+        @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
+        private googleService: GoogleService,
+    ) {
     }
 
     private toResponseObject(clip: ClipEntity): ClipRo {
@@ -47,8 +51,18 @@ export class ClipService {
     }
 
     async create(userId: string, data: ClipDto): Promise<ClipRo> {
+        // Get youtube clip info
+        const youtubeClipInfo = await lastValueFrom(this.googleService.getYoutubeClipInfo(data.url));
+        Logger.log(`YoutubeClipInfo: `, JSON.stringify(youtubeClipInfo.data.items[0]), 'ClipService');
+        Logger.log(`YoutubeClipInfo thumbnail: `, JSON.stringify(youtubeClipInfo.data.items[0].snippet.thumbnails.default.url), 'ClipService');
+
+        const title = youtubeClipInfo.data.items[0].snippet.title;
+        const description = youtubeClipInfo.data.items[0].snippet.description;
+        const thumbnail = youtubeClipInfo.data.items[0].snippet?.thumbnails.default.url;
+
         const user = await this.userRepository.findOne({ where: { id: userId } });
-        const clip = await this.clipRepository.create({ ...data, owner: user });
+
+        const clip = this.clipRepository.create({ ...data, owner: user, title, description, thumbnail, author: user.username });
         await this.clipRepository.save(clip);
         return { ...clip, owner: clip.owner.toResponseObject(false) };
     }

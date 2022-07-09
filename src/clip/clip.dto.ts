@@ -11,6 +11,8 @@ export class ClipDto {
 
     @IsNotEmpty()
     url: string;
+
+    thumbnail: string;
 }
 
 export class ClipRo {
@@ -24,9 +26,33 @@ export class ClipRo {
 
     url: string;
 
+    thumbnail: string;
+
     owner?: UserRo;
 
     created: Date;
 
     updated: Date;
+}
+
+export class YoutubeClipRo {
+    items: YoutubeClipItem[];
+}
+
+export class YoutubeClipItem {
+    id: string;
+
+    snippet: YoutubeClipItemSnippet;
+}
+
+export class YoutubeClipItemSnippet {
+    title: string;
+
+    description: string;
+
+    thumbnails: {
+        default: {
+            url: string;
+        }
+    }
 }

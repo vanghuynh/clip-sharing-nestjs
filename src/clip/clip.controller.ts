@@ -10,7 +10,9 @@ export class ClipController {
 
     private logger = new Logger('ClipController');
 
-    constructor(private clipService: ClipService) {
+    constructor(
+        private clipService: ClipService,
+    ) {
 
     }
 

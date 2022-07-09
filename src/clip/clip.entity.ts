@@ -29,6 +29,12 @@ export class ClipEntity {
     @Column('text')
     url: string;
 
+    @Column({
+        type: 'text',
+        nullable: true,
+    })
+    thumbnail: string;
+
     @ManyToOne(type => UserEntity, owner => owner.clips)
     owner: UserEntity;
 

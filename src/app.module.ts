@@ -10,6 +10,7 @@ import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 import { UserModule } from './user/user.module';
 import { typeOrmConfig } from "./config/typeorm.config";
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -17,11 +18,13 @@ import { typeOrmConfig } from "./config/typeorm.config";
       isGlobal: true
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
+    HttpModule,
     ClipModule,
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService,
+  providers: [
+    AppService,
     {
       provide: APP_FILTER,
       useClass: HttpErrorFilter
