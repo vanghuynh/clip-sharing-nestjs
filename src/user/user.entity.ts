@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert,
 import * as bcrypt from 'bcryptjs';
 import * as jwt from "jsonwebtoken";
 import { UserRo } from "./user.dto";
-import { ClipEntity } from "src/clip/clip.entity";
+import { ClipEntity } from "../clip/clip.entity";
 
 @Entity('user')
 export class UserEntity {
@@ -54,14 +54,14 @@ export class UserEntity {
         this.password = await bcrypt.hash(this.password, 10);
     }
 
-    toResponseObject(showToken: boolean = true): UserRo {
-        const { id, created, username, firstName, lastName, email, role, token } = this;
+    static toResponseObject(user: UserEntity, showToken: boolean = true): UserRo {
+        const { id, created, username, firstName, lastName, email, role, token } = user;
         const responseObject: UserRo = { id, created, username, firstName, lastName, email, role };
         if (showToken) {
             responseObject.token = token;
         }
-        if (this.clips) {
-            responseObject.clips = this.clips.map(clip => clip.toResponseObject());
+        if (user.clips) {
+            responseObject.clips = user.clips.map(clip => ClipEntity.toResponseObject(clip));
         }
         return responseObject;
     }

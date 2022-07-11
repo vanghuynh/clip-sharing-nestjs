@@ -1,4 +1,4 @@
-import { UserEntity } from "src/user/user.entity";
+import { UserEntity } from "../user/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany } from "typeorm";
 import { ClipRo } from "./clip.dto";
 
@@ -44,8 +44,8 @@ export class ClipEntity {
     @UpdateDateColumn()
     updated: Date;
 
-    toResponseObject(): ClipRo {
-        const { id, title, author, description, url } = this;
+    static toResponseObject(clip): ClipRo {
+        const { id, title, author, description, url } = clip;
         const responseObject: any = { id, title, author, description, url };
         return responseObject;
     }

@@ -2,8 +2,8 @@ import { Catch, ExceptionFilter, HttpException, ArgumentsHost, Logger, HttpStatu
 
 @Catch()
 export class HttpErrorFilter implements ExceptionFilter {
-    
-    catch(exception: HttpException, host: ArgumentsHost){
+
+    catch(exception: HttpException, host: ArgumentsHost) {
         const context = host.switchToHttp();
         const request = context.getRequest();
         const response = context.getResponse();
@@ -17,7 +17,7 @@ export class HttpErrorFilter implements ExceptionFilter {
             message: exception.message || null,
         };
 
-        if(status === HttpStatus.INTERNAL_SERVER_ERROR){
+        if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
             console.error(exception);
         }
         Logger.error(`${request.method} ${request.url}`, JSON.stringify(errorResponse), 'ExceptionFilter');

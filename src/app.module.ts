@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { ClipModule } from './clip/clip.module';
 import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core"
 import { HttpErrorFilter } from './shared/http-error.filter';

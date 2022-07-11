@@ -22,7 +22,7 @@ export class UserService {
             ]
         });
         return {
-            data: users.map(user => user.toResponseObject(false)),
+            data: users.map(user => UserEntity.toResponseObject(user, false)),
             total: total
         }
     }
@@ -48,7 +48,7 @@ export class UserService {
                 HttpStatus.BAD_REQUEST
             );
         }
-        return user.toResponseObject();
+        return UserEntity.toResponseObject(user);
     }
 
     async register(data: UserDto) {
@@ -58,9 +58,9 @@ export class UserService {
             throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
         }
         delete data['id'];
-        user = await this.userRepository.create(data);
+        user = this.userRepository.create(data);
         await this.userRepository.save(user);
-        return user.toResponseObject();
+        return UserEntity.toResponseObject(user);
     }
 
     async create(data: UserDto): Promise<UserRo> {

@@ -20,13 +20,13 @@ import { User } from './user.decorator';
 @Controller('public')
 export class LoginController {
 
-    constructor(private userService: UserService){
+    constructor(private userService: UserService) {
 
     }
 
     @Post('login')
     @UsePipes(new Validation())
-    login(@Body() data: UserDto): Promise<UserRo>{
+    login(@Body() data: UserDto): Promise<UserRo> {
         return this.userService.login(data);
     }
 

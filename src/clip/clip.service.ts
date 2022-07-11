@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ClipEntity } from 'src/clip/clip.entity';
-import { UserEntity } from 'src/user/user.entity';
 import { Like, Repository } from 'typeorm';
 import { ClipDto, ClipRo } from './clip.dto';
 import { GoogleService } from './google.service';
 import { lastValueFrom } from 'rxjs';
+import { ClipEntity } from './clip.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class ClipService {
@@ -20,7 +20,7 @@ export class ClipService {
         if (!clip.owner) {
             return { ...clip, owner: null };
         }
-        return { ...clip, owner: clip.owner.toResponseObject(false) };
+        return { ...clip, owner: UserEntity.toResponseObject(clip.owner, false) };
     }
 
 
@@ -64,7 +64,7 @@ export class ClipService {
 
         const clip = this.clipRepository.create({ ...data, owner: user, title, description, thumbnail, author: user.username });
         await this.clipRepository.save(clip);
-        return { ...clip, owner: clip.owner.toResponseObject(false) };
+        return { ...clip, owner: UserEntity.toResponseObject(clip.owner, false) };
     }
 
     async read(id: string): Promise<ClipRo> {

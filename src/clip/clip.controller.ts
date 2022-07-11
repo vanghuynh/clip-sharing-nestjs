@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UsePipes, ParseUUIDPipe, UseGuards, Logger, Query } from '@nestjs/common';
 import { ClipService } from './clip.service';
 import { ClipDto, ClipRo } from './clip.dto';
-import { Validation } from 'src/shared/validation.pipe';
-import { AuthGuard } from 'src/shared/auth.guard';
-import { User } from 'src/user/user.decorator';
+import { Validation } from '../shared/validation.pipe';
+import { AuthGuard } from '../shared/auth.guard';
+import { User } from '../user/user.decorator';
 
 @Controller('clip')
 export class ClipController {
@@ -12,9 +12,7 @@ export class ClipController {
 
     constructor(
         private clipService: ClipService,
-    ) {
-
-    }
+    ) { }
 
     @Get('')
     showClips(@Query('page') page: number = 1, @Query('latest') latest: boolean = false, @Query('query') query: string = '') {
