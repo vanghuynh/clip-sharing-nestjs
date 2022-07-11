@@ -1,2 +1,21 @@
 Deploy Version:
 0.1
+
+Backend Code:
+https://github.com/vangpro1991/clip-sharing-nestjs
+
+Frontend Code:
+https://github.com/vangpro1991/clip-sharing-reactjs
+
+Live Url:
+https://clip-sharing-reactjs.herokuapp.com/clips
+
+Deploy + CI/CI: Heroku:
+Integrate Heroku with Github to apply auto deploy when commit source Code
+At first I want to deploy to K8S of Google Cloud but my account
+not have enough credits, so I come with Heroku for free :))
+
+Unit Test: Cover Backend Unit Test for Clip
+
+More to improve but the time limitted, please have a call to disccuss :)
+Hope to see move feedback to improve
