@@ -1,0 +1,14 @@
+dist: trusty
+language: node_js
+node_js:
+  - "12"
+env:
+  - PORT=4000
+  - SECRET=1234
+
+before_install:
+  - "npm install -g npm@^2"
+install:
+  - npm install
+script:
+  - npm run test
